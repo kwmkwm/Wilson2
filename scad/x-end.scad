@@ -28,8 +28,11 @@ module vertical_bearing_base(){
 
 // MODULE -------------------------------------
 module vertical_bearing_holes(){
-  #translate(v=[0,0,-4]) cylinder(h = height+3, r=bearing_diameter/2 + bearing_cut_extra, $fn = 60);
+    //lower by one extra mm
+  translate(v=[0,0,-5]) cylinder(h = height+3, r=bearing_diameter/2 + bearing_cut_extra, $fn = 60);
   translate(v=[0,0,height-4]) cylinder(h=10,r=bearing_diameter/2-1,$fn=60);
+    //cone creates a bevel for easier printing
+  translate(v=[0,0,height-(2+bearing_cut_extra)]) cylinder(h=1,r1=bearing_diameter/2 + bearing_cut_extra ,r2=bearing_diameter/2-1,$fn=60);
   
   // the slit cut along the vertical bearing holder for some flex
   rotate(a=[0,0,80]) translate(v=[8,0,27]) cube(size = [10,5 ,height+13], center = true);
@@ -147,7 +150,7 @@ union() {
   translate(v=[-20,1,center_z-tensioner_size_z/2 - .5]) rotate([0,0,90]) rotate([45,0,0]) cube(size=[20,1.25,1.25],center=true);
   translate(v=[-20,1,center_z+tensioner_size_z/2 + .5]) rotate([0,0,90]) rotate([45,0,0]) cube(size=[20,1.25,1.25],center=true);
 } 
-#translate(v=[0,0,-4]) cylinder(h = height+3, r=bearing_diameter/2 + bearing_cut_extra, $fn = 60);
+translate(v=[0,0,-4]) cylinder(h = height+3, r=bearing_diameter/2 + bearing_cut_extra, $fn = 60);
 }
 }
 }
@@ -174,8 +177,10 @@ module adjustomatic() { // small holder for a M3 screw pointing down toward the 
 
        translate(v=[-(15+17/2+adj_block_x/2),offs_adjuster_y,height-adj_block_z/2+14]) 
            {
-         rotate([0,0,30]) #cylinder(h = 4, r = 7.5/2 , $fn = 6);
-         translate([0,0,-20]) #cylinder(h=30,r=m3_hole_r,$fn=16);
+         rotate([0,0,30]) cylinder(h = 4, r = 7.5/2 , $fn = 6);
+               //leave a plane for easy bridging
+               //drill through after printing
+         translate([0,0,-1.6]) cylinder(h=30,r=m3_hole_r,$fn=16);
 }
 
    }
@@ -288,7 +293,7 @@ module x_end_motor(){
 
 // Make parts
 x_end_idler();
-//translate([40,0,0]) rotate([0,0,180]) x_end_motor();
+translate([40,0,0]) rotate([0,0,180]) x_end_motor();
 
 
 
